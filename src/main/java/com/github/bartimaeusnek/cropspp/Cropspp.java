@@ -7,6 +7,7 @@ import com.github.bartimaeusnek.cropspp.GTHandler.machines.CropGeneExtractor;
 import com.github.bartimaeusnek.cropspp.GTHandler.machines.CropReplicator;
 import com.github.bartimaeusnek.cropspp.GTHandler.machines.CropSynthesiser;
 import com.github.bartimaeusnek.cropspp.GTHandler.machines.CropWeedPicker;
+import com.github.bartimaeusnek.cropspp.commands.EnableDebug;
 import com.github.bartimaeusnek.cropspp.croploader.CropLoader;
 import com.github.bartimaeusnek.cropspp.fluids.CppFluids;
 import com.github.bartimaeusnek.cropspp.items.CppItems;
@@ -16,6 +17,8 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -104,5 +107,10 @@ public final class Cropspp {
             final GTHandler GTHandler = new GTHandler();
             GTHandler.run();
         }
+    }
+
+    @EventHandler
+    public void onFMLServerStart(FMLServerStartingEvent event) {
+        event.registerServerCommand(new EnableDebug());
     }
 }

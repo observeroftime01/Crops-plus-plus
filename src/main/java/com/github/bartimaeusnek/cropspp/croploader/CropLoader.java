@@ -15,6 +15,8 @@ import ic2.api.crops.Crops;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import static com.github.bartimaeusnek.cropspp.ConfigValues.c;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,7 +166,7 @@ public class CropLoader {
     }
 
     public static void load(FMLPreInitializationEvent preinit) {
-        config c = new config(preinit, "berriespp.cfg");
+        c = new config(preinit, "berriespp.cfg");
         c.tConfig.addCustomCategoryComment("System", "enable or disable system config:"
                 + "\nDebug will set all crops groth duration to 1 and disable all requirements.(aka. \"Cheatmode\")"
                 + "\nBonsai Generation will generate crops from saplings, WiP state. (disabled bc of bugs with metadata, but sure you can try it.)"

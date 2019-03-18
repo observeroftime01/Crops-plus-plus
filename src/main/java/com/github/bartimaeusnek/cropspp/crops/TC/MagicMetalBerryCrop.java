@@ -10,6 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MagicMetalBerryCrop extends BasicTinkerBerryCrop {
 
     public MagicMetalBerryCrop() {
@@ -27,6 +30,21 @@ public class MagicMetalBerryCrop extends BasicTinkerBerryCrop {
     }
 
     @Override
+    protected String hasBlock() {
+        return "blockThaumium";
+    }
+
+    @Override
+    public boolean canGrow(ICropTile crop) {
+        boolean r;
+        if (ConfigValues.debug)
+            r = crop.getSize() < 4;
+        else
+            r = crop.getSize() < 1 || (crop.getSize() == 3 && crop.isBlockBelow("blockThaumium") || crop.isBlockBelow("blockIron") || crop.isBlockBelow("blockVoid")) || (crop.getLightLevel() <= 10 && crop.getSize() < 3);
+        return r;
+    }
+
+    @Override
     public ItemStack getGain(ICropTile crop) {
         if (crop.isBlockBelow("blockThaumium") || crop.isBlockBelow("blockIron")) {
             return OreDictionary.getOres("nuggetThaumium").get(OreDictionary.getOres("nuggetThaumium").size() - 1);
@@ -35,6 +53,11 @@ public class MagicMetalBerryCrop extends BasicTinkerBerryCrop {
             return OreDictionary.getOres("nuggetVoid").get(OreDictionary.getOres("nuggetVoid").size() - 1);
         } else
             return null;
+    }
+
+    @Override
+    public List<String> getCropInformation() {
+        return (List<String>) Arrays.asList(new String[]{"Needs a block of Thaumium, Iron or Void Below to fully mature.", "Needs a light level below or equal to 10 to fully mature."});
     }
 
     @Override
