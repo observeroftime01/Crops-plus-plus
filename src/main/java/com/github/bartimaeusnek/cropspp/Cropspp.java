@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(
         modid = Cropspp.modID, name = Cropspp.name, version = Cropspp.version,
         dependencies = "required-after:IC2; "
-                + "required-after:croploadcore@0.1.0; "
+                + "required-after:croploadcore@0.1.4; "
                 + "after:GalacticraftCore; "
                 + "after:Mantle; "
                 + "after:Natura; "
