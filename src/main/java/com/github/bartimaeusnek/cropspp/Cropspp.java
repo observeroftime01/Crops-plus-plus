@@ -97,6 +97,7 @@ public final class Cropspp {
         CppItems.register_Items();
         CppItems.OreDictItems();
         CppItems.register_recipes();
+        BiomeHumidityBonus.apply();
     }
 
     @EventHandler
