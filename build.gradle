@@ -65,7 +65,7 @@ dependencies {
     compile "net.industrial-craft:industrialcraft-2:${config.ic2.version}:dev"
 }
 
-task getThaucraftDev(type: Download) {
+task getThaumcraftDev(type: Download) {
     onlyIf {
         !file("libs/Thaumcraft-1.7.10-4.2.3.5.jar").exists()
     }
