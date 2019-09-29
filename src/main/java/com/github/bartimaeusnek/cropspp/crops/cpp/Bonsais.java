@@ -1,7 +1,9 @@
 package com.github.bartimaeusnek.cropspp.crops.cpp;
 
+import com.github.bartimaeusnek.croploadcore.OreDict;
 import com.github.bartimaeusnek.cropspp.ConfigValues;
 import com.github.bartimaeusnek.cropspp.abstracts.BasicCrop;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.objects.XSTR;
@@ -12,21 +14,21 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import scala.actors.threadpool.Arrays;
 
+import java.util.Arrays;
 import java.util.List;
 
 public enum Bonsais {
 
-    OAK("Oak",1,new String[]{"Tree", "Bonsai", "Leavy","Food"},"Notch",new ItemStack(Blocks.sapling),new ItemStack[]{new ItemStack(Blocks.log,Bonsais.LOGSPERHARVEST),new ItemStack(Blocks.sapling),new ItemStack(Items.apple)}, new int[]{100,50,10},null,"Can drop apples"),
-    SPRUCE("Spruce",1,new String[]{"Tree", "Bonsai", "Leavy"},"Notch",new ItemStack(Blocks.sapling,1,1),new ItemStack[]{new ItemStack(Blocks.log,Bonsais.LOGSPERHARVEST,1),new ItemStack(Blocks.sapling,1,1)}, new int[]{80,30},null),
-    BIRCH("Birch",1,new String[]{"Tree", "Bonsai", "Leavy"},"Notch",new ItemStack(Blocks.sapling,1,2),new ItemStack[]{new ItemStack(Blocks.log,Bonsais.LOGSPERHARVEST,2),new ItemStack(Blocks.sapling,1,2)}, new int[]{80,30},null),
-    JUNGLE("Jungle",1,new String[]{"Tree", "Bonsai", "Leavy"},"Notch",new ItemStack(Blocks.sapling,1,3),new ItemStack[]{new ItemStack(Blocks.log,Bonsais.LOGSPERHARVEST,3),new ItemStack(Blocks.sapling,1,3)}, new int[]{80,30},null),
-    ACACIA("Acacia",1,new String[]{"Tree", "Bonsai", "Leavy"},"Notch",new ItemStack(Blocks.sapling,1,4),new ItemStack[]{new ItemStack(Blocks.log2,Bonsais.LOGSPERHARVEST),new ItemStack(Blocks.sapling,1,4)}, new int[]{80,30},null),
-    DARKOAK("Dark Oak",1,new String[]{"Tree", "Bonsai", "Leavy","Dark"},"Notch",new ItemStack(Blocks.sapling,1,5),new ItemStack[]{new ItemStack(Blocks.log2,Bonsais.LOGSPERHARVEST,1),new ItemStack(Blocks.sapling,1,5)}, new int[]{80,30},null),
+    OAK("Oak",1,new String[]{"Tree", "Bonsai", "Leavy","Food"},"Notch",new ItemStack(Blocks.sapling),new ItemStack[]{new ItemStack(Blocks.log,Bonsais.LOGSPERHARVEST),new ItemStack(Blocks.sapling),new ItemStack(Items.apple)}, new int[]{100,50,10},null,null,"Can drop apples"),
+    SPRUCE("Spruce",1,new String[]{"Tree", "Bonsai", "Leavy"},"Notch",new ItemStack(Blocks.sapling,1,1),new ItemStack[]{new ItemStack(Blocks.log,Bonsais.LOGSPERHARVEST,1),new ItemStack(Blocks.sapling,1,1)}, new int[]{80,30},null,null),
+    BIRCH("Birch",1,new String[]{"Tree", "Bonsai", "Leavy"},"Notch",new ItemStack(Blocks.sapling,1,2),new ItemStack[]{new ItemStack(Blocks.log,Bonsais.LOGSPERHARVEST,2),new ItemStack(Blocks.sapling,1,2)}, new int[]{80,30},null,null),
+    JUNGLE("Jungle",1,new String[]{"Tree", "Bonsai", "Leavy"},"Notch",new ItemStack(Blocks.sapling,1,3),new ItemStack[]{new ItemStack(Blocks.log,Bonsais.LOGSPERHARVEST,3),new ItemStack(Blocks.sapling,1,3)}, new int[]{80,30},null,null),
+    ACACIA("Acacia",1,new String[]{"Tree", "Bonsai", "Leavy"},"Notch",new ItemStack(Blocks.sapling,1,4),new ItemStack[]{new ItemStack(Blocks.log2,Bonsais.LOGSPERHARVEST),new ItemStack(Blocks.sapling,1,4)}, new int[]{80,30},null,null),
+    DARKOAK("Dark Oak",1,new String[]{"Tree", "Bonsai", "Leavy","Dark"},"Notch",new ItemStack(Blocks.sapling,1,5),new ItemStack[]{new ItemStack(Blocks.log2,Bonsais.LOGSPERHARVEST,1),new ItemStack(Blocks.sapling,1,5)}, new int[]{80,30},null,null),
     ;
 
-    private final static int LOGSPERHARVEST = 7;
+    private final static int LOGSPERHARVEST = 10;
 
     public InternalVanillaBonsais getBonsais() {
         return bonsais;
@@ -38,17 +40,22 @@ public enum Bonsais {
 
     final InternalVanillaBonsais bonsais;
     final ItemStack seed;
+    final boolean load;
 
-    Bonsais(String name, int tier, String[] attributes, String discoveredBy, ItemStack seed,ItemStack[] gain,int[] chances,String[] pathToSprites, String... additionalDescriton) {
+
+    Bonsais(String name, int tier, String[] attributes, String discoveredBy, ItemStack seed,ItemStack[] gain,int[] chances,String[] pathToSprites, String modID, String... additionalDescriton) {
         bonsais = new InternalVanillaBonsais(name, tier, attributes, discoveredBy, gain,chances,pathToSprites, additionalDescriton);
         this.seed = seed;
+        load = modID == null || Loader.isModLoaded(modID);
     }
 
     public static void registerAllBonais(){
         for (Bonsais bonsai : Bonsais.values()) {
-            Crops.instance.registerCrop(bonsai.getBonsais());
-            if (bonsai.getSeed() != null){
-                Crops.instance.registerBaseSeed(bonsai.getSeed(),bonsai.getBonsais(),1,1,1,1);
+            if (bonsai.load) {
+                Crops.instance.registerCrop(bonsai.getBonsais());
+                if (bonsai.getSeed() != null) {
+                    Crops.instance.registerBaseSeed(bonsai.getSeed(), bonsai.getBonsais(), 1, 1, 1, 1);
+                }
             }
         }
     }
@@ -159,6 +166,10 @@ public enum Bonsais {
         @Override
         public List<String> getCropInformation() {
             return additionalDescriton != null ? Arrays.asList(additionalDescriton) : null;
+        }
+
+        public ItemStack getDisplayItem() {
+            return new ItemStack(Blocks.sapling);
         }
     }
 }
