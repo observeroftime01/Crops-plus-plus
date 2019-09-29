@@ -69,7 +69,7 @@ task getThaumcraftDev(type: Download) {
     onlyIf {
         !file("libs/Thaumcraft-1.7.10-4.2.3.5.jar").exists()
     }
-    src "https://minecraft.curseforge.com/projects/thaumcraft/files/2227552/download"
+    src "https://www.curseforge.com/minecraft/mc-mods/thaumcraft/files/2227552/download"  
     dest file("libs/Thaumcraft-1.7.10-4.2.3.5.jar")
     mustRunAfter "deobfBinJar"
     mustRunAfter "repackMinecraft"
