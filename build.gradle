@@ -75,7 +75,7 @@ task getThaumcraftDev(type: Download) {
     mustRunAfter "repackMinecraft"
 }
 
-task getGalacticraft(type: Download, dependsOn: "getThaucraftDev") {
+task getGalacticraft(type: Download, dependsOn: "getThaumcraftDev") {
     onlyIf {
         !file("libs/GalacticraftCore-Dev-1.7-3.0.12.503.jar").exists()
     }
