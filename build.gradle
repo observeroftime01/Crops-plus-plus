@@ -77,25 +77,15 @@ task getThaumcraftDev(type: Download) {
 
 task getGalacticraft(type: Download, dependsOn: "getThaumcraftDev") {
     onlyIf {
-        !file("libs/GalacticraftCore-Dev-1.7-3.0.12.503.jar").exists()
+        !file("libs/Galacticraft-1.7-3.0.15-GTNH-full.jar").exists()
     }
-    src "https://ci.micdoodle8.com/job/Galacticraft3-dev/503/artifact/Forge/build/libs/GalacticraftCore-Dev-1.7-3.0.12.503.jar"
-    dest file("libs/GalacticraftCore-Dev-1.7-3.0.12.503.jar")
+    src "http://jenkins.usrv.eu:8080/job/Galacticraft/7/artifact/build/libs/Galacticraft-1.7-3.0.15-GTNH-full.jar"
+    dest file("libs/Galacticraft-1.7-3.0.15-GTNH-full.jar")
     mustRunAfter "deobfBinJar"
     mustRunAfter "repackMinecraft"
 }
 
-task getGalacticraftPlanets(type: Download, dependsOn: "getGalacticraft") {
-    onlyIf {
-        !file("libs/Galacticraft-Planets-Dev-1.7-3.0.12.503.jar").exists()
-    }
-    src "https://ci.micdoodle8.com/job/Galacticraft3-dev/503/artifact/Forge/build/libs/Galacticraft-Planets-Dev-1.7-3.0.12.503.jar"
-    dest file("libs/Galacticraft-Planets-Dev-1.7-3.0.12.503.jar")
-    mustRunAfter "deobfBinJar"
-    mustRunAfter "repackMinecraft"
-}
-
-task getCropLoadCore(type: Download, dependsOn: "getGalacticraftPlanets") {
+task getCropLoadCore(type: Download, dependsOn: "getGalacticraft") {
     onlyIf {
         !file("libs/CropLoadCore-${config.croploadcore.version}.jar").exists()
     }
