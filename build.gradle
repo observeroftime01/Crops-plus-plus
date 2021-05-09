@@ -2,8 +2,8 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            name = "gt"
+            url = "https://gregtech.overminddl1.com/"
         }
         maven {
             name = "sonatype"
@@ -67,7 +67,7 @@ dependencies {
 
 task getThaumcraftDev(type: Download) {
     onlyIf {
-        !file("libs/Thaumcraft-1.7.10-4.2.3.5.jar").exists()
+        !file("libs/Thaumcraft-1.7.10-4.2.3.5-deobf.jar").exists()
     }
     src "http://downloads.gtnewhorizons.com/Mods_for_Jenkins/Thaumcraft-1.7.10-4.2.3.5-deobf.jar"  
     dest file("libs/Thaumcraft-1.7.10-4.2.3.5-deobf.jar")
@@ -77,10 +77,10 @@ task getThaumcraftDev(type: Download) {
 
 task getGalacticraft(type: Download, dependsOn: "getThaumcraftDev") {
     onlyIf {
-        !file("libs/Galacticraft-1.7-3.0.15-GTNH-full.jar").exists()
+        !file("libs/Galacticraft-${config.gc.version}-GTNH-dev.jar").exists()
     }
-    src "http://jenkins.usrv.eu:8080/job/Galacticraft/7/artifact/build/libs/Galacticraft-1.7-3.0.15-GTNH-full.jar"
-    dest file("libs/Galacticraft-1.7-3.0.15-GTNH-full.jar")
+	src "http://jenkins.usrv.eu:8080/job/Galacticraft/${config.gc.build}/artifact/build/libs/Galacticraft-${config.gc.version}-GTNH-dev.jar"
+    dest file("libs/Galacticraft-${config.gc.version}-GTNH-dev.jar")
     mustRunAfter "deobfBinJar"
     mustRunAfter "repackMinecraft"
 }
