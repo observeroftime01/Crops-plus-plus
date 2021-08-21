@@ -53,7 +53,7 @@ public class ItemBppSpade extends ItemTool {
             if (crop.getCrop() != null) {
                 if (crop.getCrop() instanceof ic2.api.crops.CropCard && crop.getCrop().tier() >= 1) {
                     float i = crop.getCrop().tier() + 5 * ((((-crop.getResistance()) / 2) + crop.getGain() + crop.getGrowth()) / 21);
-                    if (MyRandom.intrandom(100, 0) <= 100 * Operators.csig(i, 12, false)) {
+                    if (MyRandom.intrandom(150, 90) <= 100 * Operators.csig(i, 12, false)) {
                         if (crop.getCrop().getGain(crop) != null && crop.getCrop().canBeHarvested(crop))
                             StackUtil.dropAsEntity(world, x, y, z, crop.getCrop().getGain(crop));
                         StackUtil.dropAsEntity(world, x, y, z, crop.generateSeeds(crop.getCrop(), crop.getGrowth(), crop.getGain(), crop.getResistance(), crop.getScanLevel()));
